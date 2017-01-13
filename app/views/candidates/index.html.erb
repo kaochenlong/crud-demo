@@ -1,0 +1,12 @@
+<h1>候選人列表</h1>
+
+<%= link_to '新增', new_candidate_path %>
+
+<ul>
+  <% @candidates.each do |candidate| %>
+    <li>
+      <%= link_to '更新', edit_candidate_path(candidate) %>
+      <%= candidate.name %>
+    </li>
+  <% end %>
+</ul>
