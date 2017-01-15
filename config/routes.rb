@@ -2,5 +2,9 @@
 
 Rails.application.routes.draw do
   root "welcome#index"
-  resources :candidates
+  resources :candidates do
+    member do
+      put :vote
+    end
+  end
 end

@@ -1,4 +1,5 @@
 class Candidate < ApplicationRecord
+  has_many :votes
   validates :name, :party, presence: true
 
   def display_name
