@@ -2,11 +2,14 @@
 
 <%= link_to '新增', new_candidate_path %>
 
+<%= render "ad", text: @text %>
+
 <ul>
   <% @candidates.each do |candidate| %>
     <li>
       <%= link_to '更新', edit_candidate_path(candidate) %>
-      <%= candidate.name %>
+      <%= link_to '刪除', candidate_path(candidate), method: :delete, data: {confirm: "確定刪除嗎?"} %>
+      <%= link_to candidate.name, candidate_path(candidate) %>
     </li>
   <% end %>
 </ul>

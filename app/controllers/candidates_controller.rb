@@ -1,7 +1,12 @@
 class CandidatesController < ApplicationController
+  before_action :find_candidate, only: [:show, :edit, :update, :destroy]
 
   def index
     @candidates = Candidate.all
+    @text = "你好，我是XXX，上台之後一定會..."
+  end
+
+  def show
   end
 
   def new
@@ -9,9 +14,7 @@ class CandidatesController < ApplicationController
   end
 
   def create
-    clean_params = params.require(:candidate).permit(:name, :age, :party, :gender)
-
-    @candidate = Candidate.new(clean_params)
+    @candidate = Candidate.new(candidate_params)
 
     if @candidate.save
       redirect_to candidates_path, notice: "新增成功"
@@ -21,21 +24,29 @@ class CandidatesController < ApplicationController
   end
 
   def edit
-    @candidate = Candidate.find_by(id: params[:id])
-    redirect_to candidates_path, notice: "查無此資料" unless @candidate
   end
 
   def update
-    @candidate = Candidate.find_by(id: params[:id])
-    redirect_to candidates_path, notice: "查無此資料" unless @candidate
-
-    clean_params = params.require(:candidate).permit(:name, :age, :party, :gender)
-    if @candidate.update_attributes(clean_params)
+    if @candidate.update_attributes(candidate_params)
       redirect_to candidates_path, notice: "#{@candidate.name} 更新成功!"
     else
       render :edit
     end
   end
 
+  def destroy
+    @candidate.destroy
+    redirect_to candidates_path, notice: "已刪除"
+  end
+
+  private
+  def find_candidate
+    @candidate = Candidate.find_by(id: params[:id])
+    redirect_to candidates_path, notice: "查無此資料" unless @candidate
+  end
+
+  def candidate_params
+    params.require(:candidate).permit(:name, :age, :party, :gender)
+  end
 end
 
